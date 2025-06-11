@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: ./mcp-server
+    image: mcp-server:latest
+    container_name: mcp-server
+    environment:
+      - DB_HOST=host.docker.internal   # Or use 'postgres' if you add a DB container
+      - DB_PORT=5432
+      - DB_NAME=myDbName
+      - DB_USER=your_db_user
+      - DB_PASSWORD=xxx
+    ports:
+      - "3000:3000"
+
+  mcp-client:
+    build:
+      context: ./mcp-client
+    image: mcp-client:latest
+    container_name: mcp-client
+    environment:
+      - OPENAI_API_KEY=sk-...your-openai-key...
+      - MODEL_NAME=gpt-4o
+      - MCP_SERVER_NAME=nlp-server
+      - MCP_SERVER_URL=http://mcp-server:3000/myDbName
+      - DB_HOST=host.docker.internal   # Or use 'postgres' if you add a DB container
+      - DB_PORT=5432
+      - DB_NAME=myDbName
+      - DB_USER=your_db_user
+      - DB_PASSWORD=xxx
+    depends_on:
+      - mcp-server
+    tty: true
+    stdin_open: true
+
+volumes:
+  postgres-data:

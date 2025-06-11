@@ -1,0 +1,16 @@
+# Python-generated files
+**/__pycache__/
+**/*.py[oc]
+
+# Virtual environments
+**/.env
+**/.venv
+
+# build files
+mcp-server/server
+**/node_modules
+**/uv.lock
+
+# docker files
+docker-compose.yml
+test-questions.py
